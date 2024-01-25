@@ -3,8 +3,10 @@ const dbConnect = require("./dbConnect/dbConnection");
 const app = express();
 const routes = require("./routes/routes.js");
 
+app.use(express.json());
 
 app.use("/", routes);
+
 app.get("/", (req, res) => {
     res.send("My backend works")
 })
