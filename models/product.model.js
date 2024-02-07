@@ -14,7 +14,7 @@ const productModel = new Schema(
         },
         image: {
             type: String,
-            required: true,
+            //required: true,
         },
         categories: {
             type: Array,
@@ -24,10 +24,10 @@ const productModel = new Schema(
             type: String,
         },
         color: {
-            type: Sring,
+            type: String,
         },
         Price: {
-            type: Sring,
+            type: String,
         },
     },
     {
