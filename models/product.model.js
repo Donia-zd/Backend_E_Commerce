@@ -26,8 +26,8 @@ const productModel = new Schema(
         color: {
             type: String,
         },
-        Price: {
-            type: String,
+        price: {
+            type: Number,
         },
     },
     {
