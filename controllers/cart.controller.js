@@ -59,7 +59,7 @@ const deleteCart = async (req, res) => {
 
 const getUserCartItem = async (req, res) => {
     try {
-        const cartItems = await Cart.findById({userId: req.params.id})
+        const cartItems = await Cart.findOne({userId: req.params.id})
         res.status(200).json({
             cartItems
         });

@@ -59,7 +59,7 @@ const deleteOrder = async (req, res) => {
 
 const getUserOrder = async (req, res) => {
     try {
-        const order = await Order.findById({userId: req.params.id})
+        const order = await Order.findOne({ userId: req.params.id })
         res.status(200).json({
             order
         });
@@ -85,6 +85,38 @@ const getAllOrder = async (req, res) => {
     }
 }
 
+const getMonthlyIncome = async (req, res) => {
+    try {
+        const date = new Date();
+        const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
+        const prevMonth = new Date(lastMonth.setMonth(lastMonth.getMonth() - 1));
+
+        const monthlyIncome = await Order.aggregate([
+            {
+                $match: { createdAt: { $gte: prevMonth } },
+            }, {
+                $project: {
+                    month: { $month: "$createdAt" },
+                    sales: "$amount"
+                },
+            }, {
+                $group: {
+                    _id: "$month",
+                    total: { $sum: "$sales" }
+                },
+            },
+        ]);
+        res.status(200).json({
+            message: "Income has been retrieved Successfully",
+            monthlyIncome,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "An Error Occured while getting User Monthly Income"
+        });
+    }
+}
 
 module.exports = {
     createOrder,
@@ -92,4 +124,5 @@ module.exports = {
     deleteOrder,
     getUserOrder,
     getAllOrder,
+    getMonthlyIncome,
 };
